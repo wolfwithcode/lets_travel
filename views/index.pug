@@ -1,0 +1,33 @@
+extends layout
+
+block content
+
+  .outer_wrapper
+    .hotel_wrapper
+      h2 Hotels
+        a(href='/all') (see all)
+      .hotel
+        .hotel_img
+          a(href='')
+            img(src="/images/hotels/hotel1.jpg")
+        .hotel_info
+          a(href='')
+            h3 Hotel 1
+          hr
+          p Start rating : 4
+          p Country: Jamaica
+          p Cost per night: 56
+  //- //- h1= title
+  //- h1= 10 + 17
+  //- p Welcome to lets travel!
+  //- //- img(src="images/beach.jpg")
+  //- img(src="images/beach.jpg", alt="beach image")
+  //- //- - const name = 'Chris'
+  //- - const foods = ['cheese', 'eggs', 'chicken']
+  //- div
+  //-   h1= name
+  //-   a(href="https://www.google.com" class="button") link to Google
+
+  //-   ul
+  //-     each food in foods
+  //-       li= 'I love ' + food
