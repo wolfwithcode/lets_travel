@@ -6,19 +6,15 @@ block content
     .hotel_wrapper
       h2 Hotels
         a(href='/all') (see all):
+      ul
+        each hotel in hotels
+          +hotel(hotel)
+    .country_wrapper
+      h2 Countries
+        a(href='/countries') (see all):
+      ul
+        each country in countries
+          li
+            a(href=`/countries/${country._id}`) #{country._id}
+            img(src=`/images/countries/${country._id}.jpg`)
 
-        +hotel
-  //- //- h1= title
-  //- h1= 10 + 17
-  //- p Welcome to lets travel!
-  //- //- img(src="images/beach.jpg")
-  //- img(src="images/beach.jpg", alt="beach image")
-  //- //- - const name = 'Chris'
-  //- - const foods = ['cheese', 'eggs', 'chicken']
-  //- div
-  //-   h1= name
-  //-   a(href="https://www.google.com" class="button") link to Google
-
-  //-   ul
-  //-     each food in foods
-  //-       li= 'I love ' + food
