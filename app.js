@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -12,6 +13,35 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+
+// Set up mongoose connection
+// mongoose.connect('mongodb+srv://lets_travel_admin:choipokerK0@cluster0-svt6p.mongodb.net/test?retryWrites=true&w=majority');
+
+// mongoose.Promise = global.Promise;
+
+// 
+const MONGODB_URI = 'mongodb+srv://lets_travel_admin:travel1@cluster0-svt6p.mongodb.net/test?retryWrites=true&w=majority';
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose is connected!!!!!');
+});
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://lets_travel_admin:choipokerK0@cluster0-svt6p.mongodb.net/test?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
+mongoose.Promise = global.Promise;
+//Import the mongoose module
+
 
 app.use(logger('dev'));
 app.use(express.json());
