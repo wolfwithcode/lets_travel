@@ -14,7 +14,11 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-
+app.use((req, res, next) => {
+  console.log('current path is: ' + req.path);
+  res.locals.url = req.path;
+  next();
+})
 // Set up mongoose connection
 // mongoose.connect('mongodb+srv://lets_travel_admin:choipokerK0@cluster0-svt6p.mongodb.net/test?retryWrites=true&w=majority');
 

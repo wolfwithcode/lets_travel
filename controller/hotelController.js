@@ -160,7 +160,22 @@ exports.hotelDetail = async (req, res, next) => {
         const hotelParam = req.params.hotel;
         const hotelData = await Hotel.find({ _id: hotelParam});
         // res.json(hotel);
-        res.render('hotel_detail', {title: 'Lets Travel', hotelData });
+        res.render('hotel_detail', {
+            title: 'Lets Travel', 
+            hotelData,
+            name: 'Chris'
+         });
+    }catch(error){
+        next(error);
+    }
+}
+
+exports.hotelsByCountry = async (req, res, next) => {
+    try{
+        const countryParam = req.params.country;
+        const countryList = await Hotel.find({ country: countryParam});
+        // res.json(countryList);       
+        res.render('hotels_by_country', {title: `Browse by country: ${countryParam}`, countryList });
     }catch(error){
         next(error);
     }

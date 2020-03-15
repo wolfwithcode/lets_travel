@@ -19,6 +19,7 @@ router.get('/', hotelController.homePageFilters)
 router.get('/all', hotelController.listAllHotels);
 router.get('/all/:hotel', hotelController.hotelDetail);
 router.get('/countries', hotelController.listAllCountries);
+router.get('/countries/:country', hotelController.hotelsByCountry);
 // router.get('/all/:name', function(req,res){
 //   const name = req.params.name;
 //   res.render('all_hotels',{ title: 'All Hotels', name});
