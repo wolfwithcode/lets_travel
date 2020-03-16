@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -25,12 +26,18 @@ app.use((req, res, next) => {
 // mongoose.Promise = global.Promise;
 
 // 
-const MONGODB_URI = 'mongodb+srv://lets_travel_admin:travel1@cluster0-svt6p.mongodb.net/test?retryWrites=true&w=majority';
-
-mongoose.connect(MONGODB_URI, {
+// const MONGODB_URI = 'mongodb+srv://lets_travel_admin:travel1@cluster0-svt6p.mongodb.net/test?retryWrites=true&w=majority';
+// mongoose.connect(MONGODB_URI);
+// mongoose.connection.on('error',(error)=> console.error(error.message));
+mongoose.connect(process.env.DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+// mongoose.connect(MONGODB_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
 
 mongoose.connection.on('connected', () => {
   console.log('Mongoose is connected!!!!!');

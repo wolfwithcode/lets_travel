@@ -1,6 +1,66 @@
 const Hotel = require('../models/hotel');
+const cloudinary = require('cloudinary');
+const multer = require('multer');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 
+// // Set The Storage Engine
+// const storage = multer.diskStorage({
+//     destination: 'public/images/hotels',
+//     filename: function(req, file, cb){
+//       cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+//     }
+//   });
+  
+// // Init Upload
+// const upload = multer({
+// storage: storage,
+// limits:{fileSize: 1000000},
+// fileFilter: function(req, file, cb){
+//     checkFileType(file, cb);
+// }
+// }).single('image');
+
+
+// const storage = multer.diskStorage({});
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './public/images');
+     },
+    filename: function (req, file, cb) {
+        cb(null , file.originalname);
+    }
+});
+const upload = multer({ storage });
+// const upload = multer({ dest: 'public/images/hotels' });
+
+exports.upload = upload.single('image');
+
+exports.pushToCloudinary = (req, res, next) => {
+    console.log('Upload to Cloundinary ');
+    console.log(req.file);
+    if(req.file){
+        console.log('Upload to Cloundinary '+req.file);
+        cloudinary.uploader.upload(req.file.path)
+        // cloudinary.uploader.upload('public/images/countries/greece.jpg')
+        .then((result) => {
+            console.log('Upload successfull with ' + req.file.path);
+            // console.log('Upload successfull with ' + 'public/images/countries/greece.jpg');
+            req.body.image = result.public_id;
+            next();
+        })
+        .catch( () => {
+            res.redirect('/admin/add');
+        });
+    } else {
+        next();
+    }
+};
 // exports.homePage = (req, res) => {
 //     res.render('index', {title: 'Lets travel'});
 // }
@@ -30,15 +90,28 @@ exports.listAllCountries = async (req, res, next) => {
 
 exports.homePageFilters = async (req, res, next) => {
     try{
+        console.log('process.env.USER ' + process.env.USER);
+        console.log('process.env.DB ' + process.env.DB);
+
         const hotels = await Hotel.aggregate([
             {$match: {available: true}},
             {$sample: {size: 9}}
         ]);
+
         const countries = await Hotel.aggregate([
             {$group: {_id: '$country'}},
             {$sample: {size: 9}}
         ]);
-        res.render('index', {countries, hotels});
+
+        const [filteredCountries, filteredHotels] = await Promise.all([countries, hotels]);
+
+        // const food = ['cheese', 'fish', 'rice'];
+        // const [a,b,c] = food;
+        // res.send(a);
+
+        // res.render('index', {countries, hotels});
+        res.render('index', { filteredCountries, filteredHotels });
+
     }catch(error){
         next(error);
     }
@@ -180,3 +253,17 @@ exports.hotelsByCountry = async (req, res, next) => {
         next(error);
     }
 }
+
+exports.searchResults = async(req, res, next) => {
+    console.log("testtt");
+    try{
+        const searchQuery = req.body;
+        const searchData = await Hotel.aggregate([
+            {$match: { $text: {$search: `\"${searchQuery.destination}\"` } } },
+            {$match: {available: true}}
+        ]);
+        res.json(searchData);
+    }catch(error){
+        next(error);
+    }
+};

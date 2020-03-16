@@ -14,7 +14,7 @@ html
           li 
             a(href="/login") login
       .search_nav
-        form
+        form(action="/results" method="POST")
           .input_wrapper
             label(for="destination") Destination
             input(type="text" id="destination" name="destination" required)
