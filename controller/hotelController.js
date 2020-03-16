@@ -255,14 +255,23 @@ exports.hotelsByCountry = async (req, res, next) => {
 }
 
 exports.searchResults = async(req, res, next) => {
-    console.log("testtt");
+    console.log(req.body);
     try{
         const searchQuery = req.body;
+        const parsedStars = parseInt(searchQuery.stars) || 1;
+        const parsedSort = parseInt(searchQuery.sort) || 1;
         const searchData = await Hotel.aggregate([
-            {$match: { $text: {$search: `\"${searchQuery.destination}\"` } } },
-            {$match: {available: true}}
+            { $match: { $text: {$search: `\"${searchQuery.destination}\"` } } },
+            { $match: { available: true, star_rating: { $gte: parsedStars } } },
+            // { $match: { star_rating: { $gte: parsedStars } } },
+            { $sort: { cost_per_night: parsedSort } }
         ]);
-        res.json(searchData);
+        // res.json(searchData);
+        // res.json(searchQuery);
+        // res.send(typeof searchQuery.stars);
+        // res.render('search_results', {title: 'Search results'}, searchQuery, searchData);
+        console.log(searchData);
+        res.render('search_results', {title: 'Search results', searchQuery, searchData });
     }catch(error){
         next(error);
     }

@@ -39,6 +39,7 @@ a {
 .search_nav > form {
   display: flex;
   flex-direction: column;
+  /* flex-direction: row; */
 }
 
 input{
@@ -85,7 +86,9 @@ img {
 }
 
 .hotel_info {
-  padding: 1em 0;
+  padding: 1em;
+  text-align: right;
+  margin-right: 1em;
 }
 
 .form_input input, textarea {
@@ -108,6 +111,12 @@ textarea {
   margin: 0.5em;
 }
 
+.hotel_order_details {
+  background: #eed;
+  text-align: center;
+  padding: 1em;
+}
+
 @media (min-width: 1000px){
   nav {
     flex-direction: row;
@@ -128,7 +137,7 @@ textarea {
     justify-content: center;
     flex-wrap: wrap;
     align-items: flex-end;
-  }
+  }  
 
   .input_wrapper  {
     margin: 0;
@@ -153,6 +162,11 @@ textarea {
   .hotel_info {
     flex: 1;
     padding: 0 1em;
+    text-align: left;
+  }
+
+  .hotel_order_details {
+    text-align: left;
   }
 
   .country_wrapper ul {
