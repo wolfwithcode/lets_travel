@@ -4,16 +4,16 @@ var router = express.Router();
 const hotelController = require('../controller/hotelController')
 const userController = require('../controller/userController')
 /* GET home page. */
-router.get('/', function(req, res){
-        if(req.session.page_views){
-                req.session.page_views++;
-                res.send(`Number of page visits: ${req.session.page_views}`);
-        } else {
-                req.session.page_views = 1;
-                res.send('First visit');
-        }
-});
-// router.get('/', hotelController.homePageFilters)
+// router.get('/', function(req, res){
+//         if(req.session.page_views){
+//                 req.session.page_views++;
+//                 res.send(`Number of page visits: ${req.session.page_views}`);
+//         } else {
+//                 req.session.page_views = 1;
+//                 res.send('First visit');
+//         }
+// });
+router.get('/', hotelController.homePageFilters)
 
 // router.get('/all', function(req,res){
 //   res.render('all_hotels',{ title: 'All Hotels'});

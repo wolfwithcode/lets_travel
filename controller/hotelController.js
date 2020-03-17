@@ -55,6 +55,7 @@ exports.pushToCloudinary = (req, res, next) => {
             next();
         })
         .catch( () => {
+            req.flash('error', 'Sorry, there was a problem uploading your image, please try again.');
             res.redirect('/admin/add');
         });
     } else {
@@ -145,8 +146,9 @@ exports.createHotelPost = async (req, res, next) => {
     try{
         const hotel = new Hotel(req.body);
         await hotel.save();
+        req.flash('success', `${hotel.hotel_name} created successfully`)
         res.redirect(`/all/${hotel._id}`);
-    }catch(error){
+    } catch(error) {        
         next(error);
     }
         // const hotel = new Hotel(req.body);
@@ -175,6 +177,7 @@ exports.editRemovePost = async (req, res, next) => {
             res.render('hotel_detail', {title: 'Add / Remove Hotel', hotelData});
             return
         }else{
+            req.flash('info', 'No matches were found ...');
             res.redirect('/admin/edit-remove');
         }
 
@@ -199,6 +202,7 @@ exports.updateHotelPost = async (req, res, next) => {
         const hotel = await Hotel.findByIdAndUpdate(hotelId, req.body, {new:true});
         // res.json(hotel);
         // res.render('add_hotel', {title: 'Update hotel', hotel });
+        req.flash('success', `${hotel.hotel_name} updated successfully`);
         res.redirect(`/all/${hotelId}`);
     }catch(error){
         next(error);
@@ -222,6 +226,7 @@ exports.deleteHotelPost = async (req, res, next) => {
         const hotel = await Hotel.findByIdAndRemove({ _id: hotelId});
         // res.json(hotel);
         // res.render('add_hotel', {title: 'Delete hotel', hotel });
+        req.flash('info', `Hotel ID: ${hotelId}`)
         res.redirect('/');
     }catch(error){
         next(error);

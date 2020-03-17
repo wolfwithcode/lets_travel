@@ -12,7 +12,8 @@ var indexRouter = require('./routes/index');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-
+//For flash messages
+const flash = require('connect-flash');
 // For passport.js
 const User = require('./models/user');
 const passport = require('passport');
@@ -36,10 +37,13 @@ app.use(passport.session());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
+//  Flash messsages
+app.use(flash());
+//
 app.use((req, res, next) => {
-  console.log('current path is: ' + req.path);
+  // console.log('current path is: ' + req.path);
   res.locals.url = req.path;
+  res.locals.flash = req.flash();
   next();
 })
 // Set up mongoose connection
