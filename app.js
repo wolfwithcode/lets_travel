@@ -9,11 +9,25 @@ const mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
+
+
+// For passport.js
+const User = require('./models/user');
+const passport = require('passport');
+
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// Configure passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   console.log('current path is: ' + req.path);
@@ -68,6 +82,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+// For passport.js
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -78,5 +93,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

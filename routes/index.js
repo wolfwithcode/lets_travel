@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 // require controllers:
 const hotelController = require('../controller/hotelController')
+const userController = require('../controller/userController')
 /* GET home page. */
 // router.get('/', function(req, res, next) {
 //   res.render('index', { title: 'Express' });
@@ -25,8 +26,9 @@ router.post('/results', hotelController.searchResults);
 //   const name = req.params.name;
 //   res.render('all_hotels',{ title: 'All Hotels', name});
 // });
-router.get('/sign-up', hotelController.signUp, hotelController.logIn)
-router.get('log-in', hotelController.logIn);
+// router.get('/sign-up', hotelController.signUp, hotelController.logIn)
+// router.get('/sign-up', hotelController.signUp)
+// router.get('/log-in', hotelController.logIn);
 
 
 // ADMIN Routes:
@@ -42,5 +44,16 @@ router.get('/admin/:hotelId/update',hotelController.updateHotelGet);
 router.post('/admin/:hotelId/update',hotelController.updateHotelPost);
 router.get('/admin/:hotelId/delete',hotelController.deleteHotelGet);
 router.post('/admin/:hotelId/delete',hotelController.deleteHotelPost);
+
+
+// USER ROUTES
+// ===============
+router.get('/sign-up', userController.signUpGet);
+router.post('/sign-up', 
+        userController.signUpPost,
+        userController.loginPost
+        );
+router.get('/login', userController.loginGet);
+router.post('/login', userController.loginPost);
 
 module.exports = router;
