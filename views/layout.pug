@@ -8,13 +8,16 @@ html
       nav
         a(href="/")
           img#logo(src="/images/logo.png")
-        ul
-          li
-            a(href="/sign-up") sign up
-          li 
-            a(href="/login") login
-          li 
-            a(href="/logout") logout
+        ul        
+          if !user
+            li
+              a(href="/sign-up") sign up
+            li 
+              a(href="/login") login
+          else
+            li 
+              a(href="/logout") logout(#{user.first_name})
+            
       .search_nav
         form(action="/results" method="POST")
           .input_wrapper

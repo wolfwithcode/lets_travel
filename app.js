@@ -42,10 +42,11 @@ app.use(flash());
 //
 app.use((req, res, next) => {
   // console.log('current path is: ' + req.path);
+  res.locals.user = req.user;
   res.locals.url = req.path;
   res.locals.flash = req.flash();
   next();
-})
+});
 // Set up mongoose connection
 // mongoose.connect('mongodb+srv://lets_travel_admin:choipokerK0@cluster0-svt6p.mongodb.net/test?retryWrites=true&w=majority');
 

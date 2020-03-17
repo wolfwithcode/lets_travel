@@ -35,7 +35,8 @@ router.post('/results', hotelController.searchResults);
 
 
 // ADMIN Routes:
-router.get('/admin', hotelController.adminPage);
+router.get('/admin', userController.isAdmin ,hotelController.adminPage);
+router.get('/admin/*', userController.isAdmin);
 router.get('/admin/add', hotelController.createHotelGet);
 router.post('/admin/add', 
         hotelController.upload,
