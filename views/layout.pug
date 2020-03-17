@@ -13,6 +13,8 @@ html
             a(href="/sign-up") sign up
           li 
             a(href="/login") login
+          li 
+            a(href="/logout") logout
       .search_nav
         form(action="/results" method="POST")
           .input_wrapper
@@ -40,5 +42,6 @@ html
               option(value="-1") Price: High - Low
           .input_wrapper
             button(type="submit") SEARCH!
+            
       img(src="/images/beach.jpg", alt="")
     block content

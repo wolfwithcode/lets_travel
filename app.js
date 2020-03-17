@@ -8,7 +8,9 @@ const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
-
+// For sessions
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 
 // For passport.js
@@ -21,6 +23,12 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(session({
+  secret: process.env.SECRET,
+  saveUninitialized: false,
+  resave: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 // Configure passport middleware
 app.use(passport.initialize());
 app.use(passport.session());

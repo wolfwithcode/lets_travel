@@ -63,8 +63,8 @@ exports.signUpPost = [
 ]
 
 exports.loginGet = (req, res) => {
-    console.log("loginGet");
-    // res.render('login', {title: 'Login to continue'});
+    // console.log("loginGet");
+    res.render('login', {title: 'Login to continue'});
 }
 
 exports.loginPost = Passport.authenticate('local', {
@@ -72,9 +72,7 @@ exports.loginPost = Passport.authenticate('local', {
     failureRedirect: '/login'
 });
 
-// exports.loginPost = (req, res) => {
-//     // res.render('login', {title: 'Login to continue'});
-//     console.log("loginPost");
-//     res.json(req.body);
-//     // res.render('login', {title: 'Login Post here'});
-// }
+exports.logout = (req, res) => {
+    req.logout();
+    res.redirect('/');
+}
